@@ -1,9 +1,9 @@
 # Personal Ubuntu desktop Ansible Setup Instruction
-Track new instance Ubuntu using Ansible, by setting one-time configuration and automated software installation.
+Track new Ubuntu instance setup using Ansible, by setting one-time configuration and automated software installation.
 
 ## Boostraping
 
-Login as sudo.  Run the following commands in sh  to enable Ansible
+Login as sudo.  Run the following shell commands to enable Ansible
 
 PIP installtion is preferred over apt.
 
@@ -35,4 +35,4 @@ ansible-playbook playbook
 ```
 
 ## Post Provisioning
-Sensitive informaiton is not part this setup.  Thus, additional steps should be taken.
+Sensitive information is not part this setup.  Thus, additional steps should be taken.
