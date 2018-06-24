@@ -1,0 +1,8 @@
+- name: Add Atom repository (KelleyK)
+  apt_repository: repo="ppa:kelleyk/emacs" state=present
+
+- name: Install Emacs 25
+  apt:
+    name: emacs25
+    state: latest
+

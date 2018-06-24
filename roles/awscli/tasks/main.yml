@@ -1,0 +1,7 @@
+- name: Install AWS CLI
+  tags: 'aws-cli'
+  become: 'yes'
+  pip: name={{item}} state=present
+  with_items:
+    - awscli
+    - aws-shell

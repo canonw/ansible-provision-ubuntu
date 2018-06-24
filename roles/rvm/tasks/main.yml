@@ -1,0 +1,17 @@
+---
+
+- name: Install rvm
+  include_role:
+    name: rvm_io.ruby
+  vars:
+    tags: ruby
+    rvm1_rubies: ['ruby-2.4.1']
+    rvm1_user: '{{ ansible_env.USER }}'
+    rvm1_install_flags: '--auto-dotfiles  --user-install'
+    # rvm1_ruby_install_flags: '--rails'
+
+- name: "Configure bashrc rvm for user {{ ansible_env.USER }}"
+  lineinfile: dest="{{ ansible_env.HOME }}/.bashrc" line="{{ item }}" create="yes"
+  with_items:
+    - "# rvm setting"
+    - '[[ -s "{{ ansible_env.HOME }}/.rvm/scripts/rvm" ]] && source "{{ ansible_env.HOME }}/.rvm/scripts/rvm"'

@@ -1,0 +1,2 @@
+- name: Install Filezilla
+  apt: pkg=filezilla state=present

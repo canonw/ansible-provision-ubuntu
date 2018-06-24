@@ -1,0 +1,14 @@
+---
+# https://github.com/andsens/homeshick
+- name: "Install homeshick for user {{ ansible_env.USER }}"
+  git:
+    repo: 'https://github.com/andsens/homeshick.git'
+    dest: "{{ ansible_env.HOME }}/.homesick/repos/homeshick"
+  become_user: "{{ ansible_env.USER }}"
+
+- name: "Configure bashrc homeshick for user {{ ansible_env.USER }}"
+  lineinfile: dest="{{ ansible_env.HOME }}/.bashrc" line="{{ item }}" create="yes"
+  with_items:
+    - "# homeshick setting"
+    - '[[ -s "$HOME/.homesick/repos/homeshick/bin" ]] && export PATH="$PATH:$HOME/.homesick/repos/homeshick/bin"'
+    - '[[ -s "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash" ]] && source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"'

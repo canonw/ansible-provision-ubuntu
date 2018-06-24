@@ -1,0 +1,7 @@
+---
+
+- name: Install mitmproxy
+  pip:
+    name: mitmproxy
+    state: present
+    executable: pip3

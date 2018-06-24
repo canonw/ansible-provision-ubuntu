@@ -1,0 +1,31 @@
+---
+
+- name: Install SDKMAN
+  include_role:
+    name: Comcast.sdkman
+  vars:
+    sdkman_dir: /usr/local/sdkman
+    sdkman_auto_answer: true
+    sdkman_update: true
+    sdkman_install_packages:
+      - { candidate: gradle, version: 4.8.1 }
+      - { candidate: groovy, version: 2.5.0 }
+      - { candidate: maven, version: 3.5.3 }
+      - { candidate: springboot, version: 2.0.2.RELEASE }
+    sdkman_flush_caches_before:
+      - temp
+    sdkman_flush_caches_after:
+      - archives
+      - broadcast
+      - candidates
+      - temp
+
+# Update SDKMAN variables due to change to default directory
+- name: "Configure bashrc SDKMAN for user {{ ansible_env.USER }}"
+  lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
+  with_items:
+    - "# SDKMAN setting"
+    - "SDKMAN_DIR={{ sdkman_dir }}"
+    - '[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"'
+    # - '[[ -s "{{ sdkman_dir }}/bin/sdkman-init.sh" ]] && source "{{ sdkman_dir }}/bin/sdkman-init.sh"'
+

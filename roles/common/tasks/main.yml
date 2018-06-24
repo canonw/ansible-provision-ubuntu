@@ -1,0 +1,68 @@
+- name: Install common packages
+  apt: pkg={{ item }} state=present
+  with_items:
+    - chrony
+    - curl
+    - diffutils
+    - dos2unix
+    - git
+    - grep
+    - graphviz
+    - gzip
+    - htop
+    - httpie
+    - less
+    - net-tools
+    - openssl
+    - rar
+    - rsync
+    - silversearcher-ag
+    - software-properties-common
+    - sshpass
+    - tar
+    - trash-cli
+    - unzip
+    - wget
+    - wireshark-qt
+    - zip
+
+- name: Install Neofetch
+  apt:
+    name: "neofetch"
+    state: present
+
+- name: Download BASH powerline for {{ ansible_env.USER }} user
+  get_url:
+    url: https://raw.githubusercontent.com/riobard/bash-powerline/master/bash-powerline.sh
+    dest:  "/home/{{ ansible_env.USER }}/.bash-powerline.sh"
+    mode: 0755
+    owner: "{{ ansible_env.USER }}"
+
+- name: Update bashrc for {{ ansible_env.USER }} user
+  blockinfile:
+    dest: "/home/{{ ansible_env.USER }}/.bashrc"
+    backup: yes
+    block: |
+      [[ -x "$(command -v neofetch)" ]]  && neofetch
+      [[ -s "$HOME/.bash-powerline.sh" ]]  && source "$HOME/.bash-powerline.sh"
+    state: present
+
+- name: Download BASH personal aliases for {{ ansible_env.USER }} user
+  get_url:
+    url: https://gist.githubusercontent.com/canonw/d2b8f0a0c10d9a71be3f53f69d3c94b9/raw
+    dest:  "/home/{{ ansible_env.USER }}/.kwbash_aliases"
+    owner: "{{ ansible_env.USER }}"
+
+- name: "Configure bashrc personal aliases for user {{ ansible_env.USER }}"
+  lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
+  with_items:
+    - '[[ -s "$HOME/.kwbash_aliases" ]] && source "$HOME/.kwbash_aliases"'
+
+- name: Remove desktop shortcut
+  file: path=/usr/share/applications/ubuntu-amazon-default.desktop force=yes state=absent
+
+- name: Add Notepadqq repository
+  apt_repository: repo="ppa:notepadqq-team/notepadqq" state=present
+
+- name: Install Notepadqq text editor
+  apt: name=notepadqq state=present
