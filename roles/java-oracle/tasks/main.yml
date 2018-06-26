@@ -17,10 +17,6 @@
   become: yes
   debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
 
-- name: Accept Java 9 License
-  become: yes
-  debconf: name='oracle-java9-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
-
 - name: Install Oracle Java 7
   become: yes
   apt: name={{item}} state=present
@@ -37,8 +33,3 @@
     - ca-certificates
     - oracle-java8-set-default
 
-- name: Install Oracle Java 9
-  become: yes
-  apt: name={{item}} state=present update_cache=yes
-  with_items:
-    - oracle-java9-installer

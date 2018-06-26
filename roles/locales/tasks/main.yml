@@ -5,7 +5,6 @@
   notify:
     - Generate locales
   with_items:
-    - "en_US.UTF-8 UTF-8"
     - "{{ locale }} UTF-8"
 
 - name: Set localtime (/etc/localtime)
@@ -16,5 +15,8 @@
   notify:
     - Update TimeZone data
 
+- name: Install chrony package
+  action: apt pkg=chrony state=present
+
 - name: Install ntp package
-  action: apt pkg=ntp state=present
+  action: apt pkg=ntp state=absent

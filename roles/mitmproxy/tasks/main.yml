@@ -1,5 +1,8 @@
 ---
 
+- name: Install python3-pip package
+  action: apt pkg=python3-pip state=present
+
 - name: Install mitmproxy
   pip:
     name: mitmproxy

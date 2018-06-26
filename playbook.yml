@@ -3,27 +3,29 @@
 - name: ubuntu setup playbook
   hosts: localhost
   connection: local
+  gather_facts: true
   roles:
-    # - { role: awscli, become: true }
-    # - { role: mitmproxy, become: true }
-    - { role: homeshick, become: true }
-    # - { role: rvm, become: true }
-    - { role: common, become: true }
-    # - { role: umake, become: true }
-    # - { role: ssh, become: true }
-    # - { role: atom, become: true }
-    # - { role: chromium, become: true }
-    # - { role: emacs, become: true }
-    # - { role: filezilla, become: true }
-    # - { role: firefox, become: true }
-    # - { role: java-openjdk, become: true }
-    # - { role: java-oracle, become: true }
-    # - { role: jmeter, become: true }
     - { role: locales, become: true }
-    # - { role: memcached, become: true }
-    # - { role: nginx, become: true }
-    # - { role: python, become: true }
-    # - { role: redis, become: true }
-    # - { role: remmina, become: true }
-    # - { role: ripgrep, become: true }
-    # - { role: sdkman, become: true }
+    - { role: common, become: true }
+    - { role: ssh, become: true }
+    - { role: homeshick, become: true }
+    - { role: awscli, become: true }
+    - { role: mitmproxy, become: true }
+    - { role: rvm, become: true }
+    - { role: umake, become: true }
+    - { role: atom, become: true }
+    - { role: chromium, become: true }
+    - { role: emacs, become: true }
+    - { role: filezilla, become: true }
+    - { role: firefox, become: true }
+    - { role: java-openjdk, become: true }
+    - { role: java-oracle, become: true }
+    - { role: jmeter, become: true }
+    - { role: memcached, become: true }
+    - { role: nginx, become: true }
+    - { role: python, become: true }
+    - { role: redis, become: true }
+    - { role: remmina, become: true }
+    - { role: ripgrep, become: true }
+    - { role: sdkman, become: true }
+

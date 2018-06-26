@@ -4,5 +4,5 @@
 - name: Install Atom text editor
   apt:
     name: atom
-    state: present
+    state: latest
 
