@@ -15,3 +15,8 @@
     name: ssh
     state: "{{ ssh.start | ternary('restarted','stopped') }}"
     enabled: "{{ ssh.service_enabled }}"
+
+- name: Open port 22
+  ufw:
+    rule: allow
+    port: 22

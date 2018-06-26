@@ -8,3 +8,8 @@
     name: mitmproxy
     state: present
     executable: pip3
+
+- name: Open port 8080
+  ufw:
+    rule: allow
+    port: 8080
