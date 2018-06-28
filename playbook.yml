@@ -28,7 +28,7 @@
     # - { role: atom, become: true }
     # - { role: bcompare, become: true }
     # - { role: emacs, become: true }
-    # - { role: chromium, become: true }
+    - { role: chromium, become: true }
     # - { role: filezilla, become: true }
     # - { role: firefox, become: true }
     # - { role: remmina, become: true }
