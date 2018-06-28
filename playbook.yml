@@ -18,6 +18,8 @@
     # - { role: jmeter, become: true }
     # - { role: memcached, become: true }
     # - { role: nginx, become: true }
+    # - { role: nodejs, become: true }
+    # - { role: ssh, become: true }
     # - { role: python, become: true }
     # - { role: redis, become: true }
     # - { role: ripgrep, become: true }
