@@ -5,10 +5,10 @@
   connection: local
   gather_facts: true
   roles:
-    - { role: locales, become: true }
-    - { role: common, become: true }
-    - { role: ssh, become: true }
-    - { role: homeshick, become: true }
+    # - { role: locales, become: true }
+    # - { role: common, become: true }
+    # - { role: ssh, become: true }
+    # - { role: homeshick, become: true }
     # - { role: awscli, become: true }
     # - { role: mitmproxy, become: true }
     # - { role: rvm, become: true }

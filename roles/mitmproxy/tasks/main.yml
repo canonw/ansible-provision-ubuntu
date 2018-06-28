@@ -9,7 +9,7 @@
     state: present
     executable: pip3
 
-- name: Open port 8080
+- name: " {{ mitmproxy.port_enabled | ternary('Allow','deny') }} port access"
   ufw:
-    rule: allow
+    rule: "{{ mitmproxy.port_enabled | ternary('allow','deny') }}"
     port: 8080
