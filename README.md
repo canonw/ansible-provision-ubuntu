@@ -26,7 +26,11 @@ sudo mkdir -p /etc/ansible && \
 echo -e "[local]\n127.0.0.1" | sudo tee -a /etc/ansible/hosts && \
 \
 ansible-galaxy install Comcast.sdkman && \
-ansible-galaxy install rvm_io.ruby 
+ansible-galaxy install rvm_io.ruby && \
+
+
+# ansible-galaxy install nickjj.mariadb && \
+# ansible-galaxy install debops.mariadb
 ```
 
 ## Begin Provisioning
