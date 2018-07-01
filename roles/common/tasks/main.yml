@@ -63,6 +63,9 @@
 - name: Remove desktop shortcut
   file: path=/usr/share/applications/ubuntu-amazon-default.desktop force=yes state=absent
 
+- name: Remove exemples shortcut
+  file: path="{{ ansible_env.HOME }}/examples.desktop" force=yes state=absent
+
 - name: Add Notepadqq repository
   apt_repository: repo="ppa:notepadqq-team/notepadqq" state=present
 
