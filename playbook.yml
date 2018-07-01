@@ -38,6 +38,7 @@
     # - { role: shutter, become: true }
 
     # - { role: desktop-preferences, become: true }
+    # - { role: desktop-autostart, become: true }
     
     # Server
     # WIP - { role: mariadb, become: true }
