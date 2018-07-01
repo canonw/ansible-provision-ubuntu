@@ -24,6 +24,7 @@
     # - { role: redis, become: true }
     # - { role: ripgrep, become: true }
     # - { role: sdkman, become: true }
+    # WIP - { role: jekyll, become: true }
 
     # GUI
     # - { role: atom, become: true }
@@ -35,6 +36,7 @@
     # - { role: nautilus-plugins, become: true }
     # - { role: notepadqq, become: true }
     # - { role: remmina, become: true }
+    # WIP - { role: slack, become: true }
     # - { role: shutter, become: true }
 
     # - { role: desktop-preferences, become: true }

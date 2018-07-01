@@ -1,0 +1,30 @@
+---
+
+- name: Check if slack-desktop is installed
+  command: dpkg-query -W slack-desktop
+  register: check_slack_desktop
+  failed_when: false
+  changed_when: false
+
+- name: Cleanup existing slack-desktop installer
+  file: path=/tmp/download-slack-desktop.deb state=absent
+  when: check_slack_desktop.rc == 1
+
+# https://slack.com/downloads/linux
+- name: Download slack package
+  get_url: url="{{ slack.repository }}" dest="/tmp/download-slack-desktop.deb"
+
+- name: Install gdebi
+  become: yes
+  apt: name=gdebi-core state=present
+  when: check_slack_desktop.rc == 1
+  
+- name: Install slack-desktop
+  become: yes
+  command: gdebi /tmp/download-slack-desktop.deb -n
+  when: check_slack_desktop.rc == 1
+
+- name: Cleanup slack-desktop installer
+  file: path=/tmp/download-slack-desktop.deb state=absent
+  when: check_slack_desktop.rc == 1
+

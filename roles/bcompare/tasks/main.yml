@@ -2,7 +2,7 @@
 
 # https://www.scootersoftware.com/download.php?zz=kb_linux_install
 - name: Download bcompare archive
-  get_url: url="{{ bcompare.url }}" dest="/tmp/download-bcompare.deb"
+  get_url: url="{{ bcompare.repository }}" dest="/tmp/download-bcompare.deb"
 
 - name: Install gdebi
   become: yes

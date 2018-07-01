@@ -49,11 +49,12 @@
       [[ -s "$HOME/.bash-powerline.sh" ]]  && source "$HOME/.bash-powerline.sh"
     state: present
 
-- name: Download BASH personal aliases for {{ ansible_env.USER }} user
-  get_url:
-    url: https://gist.githubusercontent.com/canonw/d2b8f0a0c10d9a71be3f53f69d3c94b9/raw
-    dest:  "/home/{{ ansible_env.USER }}/.kwbash_aliases"
-    owner: "{{ ansible_env.USER }}"
+# handle by homeschick
+# - name: Download BASH personal aliases for {{ ansible_env.USER }} user
+#   get_url:
+#     url: https://gist.githubusercontent.com/canonw/d2b8f0a0c10d9a71be3f53f69d3c94b9/raw
+#     dest:  "/home/{{ ansible_env.USER }}/.kwbash_aliases"
+#     owner: "{{ ansible_env.USER }}"
 
 - name: "Configure bashrc personal aliases for user {{ ansible_env.USER }}"
   lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
@@ -65,9 +66,3 @@
 
 - name: Remove exemples shortcut
   file: path="{{ ansible_env.HOME }}/examples.desktop" force=yes state=absent
-
-- name: Add Notepadqq repository
-  apt_repository: repo="ppa:notepadqq-team/notepadqq" state=present
-
-- name: Install Notepadqq text editor
-  apt: name=notepadqq state=present

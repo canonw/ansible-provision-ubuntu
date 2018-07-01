@@ -1,5 +1,3 @@
----
-
 memcached:
   start: false
-  service_enabled: no
+  service_enabled: false
