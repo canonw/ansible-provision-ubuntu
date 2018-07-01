@@ -37,6 +37,8 @@
     # - { role: remmina, become: true }
     # - { role: shutter, become: true }
 
+    # - { role: desktop-preferences, become: true }
+    
     # Server
     # WIP - { role: mariadb, become: true }
 
