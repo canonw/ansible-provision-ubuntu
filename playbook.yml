@@ -32,6 +32,7 @@
     # - { role: chromium, become: true }
     # - { role: filezilla, become: true }
     # - { role: firefox, become: true }
+    # - { role: nautilus-plugins, become: true }
     # - { role: notepadqq, become: true }
     # - { role: remmina, become: true }
     # - { role: shutter, become: true }
