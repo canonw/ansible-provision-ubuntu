@@ -11,24 +11,25 @@
   command: update-alternatives --install /usr/bin/x-www-browser x-www-browser /usr/bin/chromium-browser 250
   when: chromium.set_default == true
 
-# See https://www.chromium.org/administrators/policy-list-3
-- name: Create Chromium policies directory for all users
-  file:
-    path: /etc/chromium-browser/policies/managed/
-    state: directory
-  when: chromium.policy
-
-- name: Create Chromium JSON policy file to force settings for all users
-  copy:
-    src: policy.json
-    dest: "/etc/chromium-browser/policies/managed/kwong-policy.json"
-  when: chromium.policy
+# # See https://www.chromium.org/administrators/policy-list-3
+# - name: Create Chromium policies directory for all users
+#   file:
+#     path: /etc/chromium-browser/policies/managed/
+#     state: directory
+#   when: chromium.policy
+# 
+# - name: Create Chromium JSON policy file to force settings for all users
+#   copy:
+#     become: true
+#     src: policy.json
+#     dest: "/etc/chromium-browser/policies/managed/kwong-policy.json"
+#   when: chromium.policy
 
 - name: Create Chromium extensions directory for all users
   file:
     path: /usr/share/chromium-browser/extensions
     state: directory
-  when: chromium.policy
+  when: chromium.extensions
 
 # See https://developer.chrome.com/extensions/external_extensions#preferences
 - name: Create Chromium JSON file to install extensions for all users
@@ -36,14 +37,14 @@
     src: chrome-extensions.json.j2
     dest: "/usr/share/chromium-browser/extensions/{{ item }}.json"
   with_items:
-    - cjpalhdlnbpafiamejdnhcphjbkeiagm # ublock
-    - ajpgkpeckebdhofmmjfgcjjiiejpodla # Xmarks Bookmark Sync
-    - bcjindcccaagfpapjjmafapmmgkkhgoa # JSON Formatter
-    - fjnbnpbmkenffdnngjfgmeleoegfcffe # Stylish
+    - nckgahadagoaajjgafhacjanaoiihapd # Google hangouts
+    - cjpalhdlnbpafiamejdnhcphjbkeiagm # ublock origin
+    # - ajpgkpeckebdhofmmjfgcjjiiejpodla # Xmarks Bookmark Sync
+    # - bcjindcccaagfpapjjmafapmmgkkhgoa # JSON Formatter
+    # - fjnbnpbmkenffdnngjfgmeleoegfcffe # Stylish
     # - jbbplnpkjmmeebjpijfedlgcdilocofh # wave-evaluation-tool
     # - idgpnmonknjnojddfkpgkljpfnnfcklj # ModHeader
     # - jgbbilmfbammlbbhmmgaagdkbkepnijn # Cookie Inspector
     # - dapjbgnjinbpoindlpdmhochffioedbn # builtwith-technology-prof
     # - deoaddaobnieaecelinfdllcgdehimih # kimono
-    # - fhbjgbiflinjbdggehcddcbncdddomop # postman
   when: chromium.extensions

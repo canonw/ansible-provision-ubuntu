@@ -36,7 +36,7 @@
     # - { role: nautilus-plugins, become: true }
     # - { role: notepadqq, become: true }
     # - { role: remmina, become: true }
-    # WIP # - { role: slack, become: true }
+    # - { role: slack, become: true }
     # - { role: shutter, become: true }
 
     # - { role: desktop-preferences, become: true }
