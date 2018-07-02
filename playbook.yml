@@ -20,7 +20,7 @@
     # WIP # - { role: nodejs, become: true }
     # - { role: python, become: true }
     # WIP # - { role: redis, become: true }
-    # WIP # - { role: sdkman, become: true }
+    # - { role: sdkman, become: true }
 
     # Ruby
     # - { role: rvm, become: true }

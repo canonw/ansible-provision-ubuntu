@@ -5,6 +5,8 @@
     name: Comcast.sdkman
   vars:
     sdkman_dir: /usr/local/sdkman
+    sdkman_user: root
+    sdkman_group: root
     sdkman_auto_answer: true
     sdkman_update: true
     sdkman_install_packages:
