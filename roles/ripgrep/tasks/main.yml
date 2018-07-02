@@ -1,5 +1,0 @@
----
-
-# - name: Install ripgrep
-#   snap: pkg=ripgrep state=latest
-

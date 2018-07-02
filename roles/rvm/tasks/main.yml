@@ -1,17 +1,28 @@
 ---
 
+- name: Check if rvm is installed
+  command: command -v /usr/local/rvm/bin/rvm
+  register: check_rvm
+  failed_when: false
+  changed_when: false
+
 - name: Install rvm
   include_role:
     name: rvm_io.ruby
   vars:
     tags: ruby
-    rvm1_rubies: ['ruby-2.4.1']
-    rvm1_user: '{{ ansible_env.USER }}'
-    rvm1_install_flags: '--auto-dotfiles  --user-install'
-    # rvm1_ruby_install_flags: '--rails'
+    become: yes
+    rvm1_rubies: ['ruby-2.5.1']
+    # rvm1_user: '{{ ansible_env.USER }}'
+    rvm1_user: 'root'
+    rvm1_install_path: '/usr/local/rvm'
+    rvm1_bundler_install: true
+    rvm1_install_flags: '--auto-dotfiles'
+  when: check_rvm.rc == 1
 
 - name: "Configure bashrc rvm for user {{ ansible_env.USER }}"
   lineinfile: dest="{{ ansible_env.HOME }}/.bashrc" line="{{ item }}" create="yes"
   with_items:
     - "# rvm setting"
-    - '[[ -s "{{ ansible_env.HOME }}/.rvm/scripts/rvm" ]] && source "{{ ansible_env.HOME }}/.rvm/scripts/rvm"'
+    - '[[ -s "/usr/local/rvm/scripts/rvm" ]] && source "/usr/local/rvm/scripts/rvm"'
+  # - '[[ -s "{{ ansible_env.HOME }}/.rvm/scripts/rvm" ]] && source "{{ ansible_env.HOME }}/.rvm/scripts/rvm"'

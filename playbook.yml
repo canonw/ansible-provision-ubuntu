@@ -11,20 +11,20 @@
     # - { role: homeshick, become: true }
     # - { role: awscli, become: true }
     # - { role: mitmproxy, become: true }
-    # - { role: rvm, become: true }
-    # - { role: umake, become: true }
+    # WIP # - { role: umake, become: true }
     # - { role: java-openjdk, become: true }
     # - { role: java-oracle, become: true }
     # - { role: jmeter, become: true }
     # - { role: memcached, become: true }
-    # - { role: nginx, become: true }
-    # - { role: nodejs, become: true }
-    # - { role: ssh, become: true }
+    # WIP # - { role: nginx, become: true }
+    # WIP # - { role: nodejs, become: true }
     # - { role: python, become: true }
-    # - { role: redis, become: true }
-    # - { role: ripgrep, become: true }
-    # - { role: sdkman, become: true }
-    # WIP - { role: jekyll, become: true }
+    # WIP # - { role: redis, become: true }
+    # WIP # - { role: sdkman, become: true }
+
+    # Ruby
+    # - { role: rvm, become: true }
+    # - { role: jekyll, become: true }
 
     # GUI
     # - { role: atom, become: true }
@@ -36,12 +36,12 @@
     # - { role: nautilus-plugins, become: true }
     # - { role: notepadqq, become: true }
     # - { role: remmina, become: true }
-    # WIP - { role: slack, become: true }
+    # WIP # - { role: slack, become: true }
     # - { role: shutter, become: true }
 
     # - { role: desktop-preferences, become: true }
     # - { role: desktop-autostart, become: true }
     
     # Server
-    # WIP - { role: mariadb, become: true }
+    # WIP # - { role: mariadb, become: true }
 
