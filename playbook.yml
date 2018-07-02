@@ -16,10 +16,7 @@
     # - { role: java-oracle, become: true }
     # - { role: jmeter, become: true }
     # - { role: memcached, become: true }
-    # WIP # - { role: nginx, become: true }
-    # WIP # - { role: nodejs, become: true }
     # - { role: python, become: true }
-    # WIP # - { role: redis, become: true }
     # - { role: sdkman, become: true }
 
     # Ruby
@@ -43,5 +40,8 @@
     # - { role: desktop-autostart, become: true }
     
     # Server
-    # WIP # - { role: mariadb, become: true }
+    # - { role: mariadb, become: true }
+    # WIP # - { role: nginx, become: true }
+    # WIP # - { role: nodejs, become: true }
+    # WIP # - { role: redis, become: true }
 

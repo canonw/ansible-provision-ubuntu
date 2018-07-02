@@ -1,73 +1,53 @@
 ---
 
-# WIP
-- name: Install MariaDb
-  include_role:
-    name: nickjj.mariadb
-  vars:
-    mariadb_mysqld_config:
-      - 'innodb_buffer_pool_size = {{ (ansible_memtotal_mb * 0.75) | int }}M'
-    mariadb_upstream_version: '10.3'
-    mariadb_mysqld_bind_address: 'localhost'
-    mariadb_mysqld_port: "{{ mariadb.port }}"
-    mariadb_mysqld_root_password: 'changeme!'
-    mariadb_mysqld_retsart_on_config_change: true
-    mariadb_mysqld_backup: false
-    mariadb_mysqld_backup_weekly_backup_day: 6
-    mariadb_mysqld_backup_createdb: 'yes'
-    mariadb_mysqld_dependencies:
-      - 'python-mysqldb'
-      - '{{ "automysqlbackup" if mariadb_mysqld_backup | bool else [] }}'
-    mariadb_default_client_config:
-      - 'default-character-set = utf8'
-    mariadb_default_mysqld_config:
-      - 'collation-server = utf8_unicode_ci'
-      - 'init-connect = "SET NAMES utf8"'
-      - 'character-set-server = utf8'
-    mariadb_default_mysqld_safe_config: []
-    mariadb_default_galera_config: []
-    mariadb_default_mysqldump_config: []
-    mariadb_default_mysql_config: []
-    mariadb_default_isamchk_config: []
-    mariadb_client_config: []
-    mariadb_mysqld_config: []
-    mariadb_mysqld_safe_config: []
-    mariadb_galera_config: []
-    mariadb_mysqldump_config: []
-    mariadb_mysql_config: []
-    mariadb_isamchk_config: []
-    mariadb_distribution: '{{ ansible_local.core.distribution
-                             if (ansible_local|d() and ansible_local.core|d() and
-                                 ansible_local.core.distribution|d())
-                             else ansible_distribution }}'
-    mariadb_distribution_release: '{{ ansible_local.core.distribution_release
-                                     if (ansible_local|d() and ansible_local.core|d() and
-                                         ansible_local.core.distribution_release|d())
-                                     else ansible_distribution_release }}'
-    mariadb_repository: 'deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/{{ mariadb_upstream_version }}/{{ mariadb_distribution | lower }} {{ mariadb_distribution_release }} main'
-    mariadb_apt_cache_time: "{{ aptcachetime }}"
+# - name: Config MariaDb
+#   include_role:
+#     name: debops.mariadb
+#   vars:
+#     mariadb__port: "{ mariadb.port }}"
+#     mariadb__upstream_version: '10.3'
+#     mysql_db:
+#       name: 'dbTest'
+#       state: 'present'
+#     # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
+#     # register: application__register_database
+#     mysql_user:
+#       name: '{{ application__database_user }}'
+#       host: '{{ ansible_local.mariadb.host }}'
+#       password: '{{ application__database_password }}'
+#       priv: '{{ application__database_name }}.*:ALL'
+#       state: 'present'
+#     # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
 
+# https://downloads.mariadb.org/mariadb/repositories/#mirror=jaleco&distro=Ubuntu&distro_release=bionic--ubuntu_bionic&version=10.3
+- name: Installing apt-key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: "0xF1656F24C74CD1D8"
 
-- name: Config MariaDb
-  include_role:
-    name: debops.mariadb
-  vars:
-    mariadb__port: "{ mariadb.port }}"
-    mariadb__upstream_version: '10.3'
-    mysql_db:
-      name: 'dbTest'
-      state: 'present'
-    # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
-    # register: application__register_database
-    mysql_user:
-      name: '{{ application__database_user }}'
-      host: '{{ ansible_local.mariadb.host }}'
-      password: '{{ application__database_password }}'
-      priv: '{{ application__database_name }}.*:ALL'
-      state: 'present'
-    # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
+- name: Add MaraDB deb-src repository
+  apt_repository: repo='deb-src http://mirror.jaleco.com/mariadb/repo/10.3/ubuntu {{ ansible_distribution_release }} main' state=present
 
-- name: " {{ mariadb.port_enabled | ternary('Allow','deny') }} port access {{ mariadb.port }}"
+- name: Configure MariaDB Installation
+  debconf:
+    name: mariadb-server
+    question: "{{ item }}"
+    vtype: password
+    value: "Password1!"
+  with_items:
+    - mysql-server/root_password
+    - mysql-server/root_password_again
+  register: configure_install
+
+- name: Install MariaDB server
+  apt: pkg=mariadb-server state=latest update_cache=yes
+  when: configure_install is success
+  register: install_mariadb 
+
+- name: Install MariaDB client
+  apt: pkg=mariadb-client state=latest update_cache=yes
+  
+- name: " {{ mariadb.port_enabled | ternary('Allow','Deny') }} port access {{ mariadb.port }}"
   ufw:
     rule: "{{ mariadb.port_enabled | ternary('allow','deny') }}"
     port: "{{ mariadb.port }}"
