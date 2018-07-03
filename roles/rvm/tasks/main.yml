@@ -1,10 +1,11 @@
 ---
 
-- name: Check if rvm is installed
-  command: command -v /usr/local/rvm/bin/rvm
-  register: check_rvm
-  failed_when: false
-  changed_when: false
+# TODO: Make this work
+# - name: Check if rvm is installed
+#   command: command -v /usr/local/rvm/bin/rvm
+#   register: check_rvm
+#   failed_when: false
+#   changed_when: false
 
 - name: Install rvm
   include_role:
@@ -18,7 +19,7 @@
     rvm1_install_path: '/usr/local/rvm'
     rvm1_bundler_install: true
     rvm1_install_flags: '--auto-dotfiles'
-  when: check_rvm.rc == 1
+#  when: check_rvm.rc == 1
 
 - name: "Configure bashrc rvm for user {{ ansible_env.USER }}"
   lineinfile: dest="{{ ansible_env.HOME }}/.bashrc" line="{{ item }}" create="yes"
