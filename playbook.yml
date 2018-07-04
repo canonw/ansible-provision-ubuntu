@@ -18,6 +18,7 @@
     # - { role: memcached, become: true }
     # - { role: python, become: true }
     # - { role: sdkman, become: true }
+    # - { role: fonts, become: true }
 
     # Ruby
     # - { role: rvm, become: true }
