@@ -35,6 +35,8 @@
     # - { role: remmina, become: true }
     # - { role: slack, become: true }
     # - { role: shutter, become: true }
+    # - { role: terminator, become: true }
+
 
     # - { role: desktop-preferences, become: true }
     # - { role: desktop-autostart, become: true }
