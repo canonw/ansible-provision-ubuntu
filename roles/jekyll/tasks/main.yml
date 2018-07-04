@@ -5,33 +5,7 @@
   gem: 
     name: "{{ item }}"
     state: present
-    user_install: false
-#    executable: "{{ ansible_env.HOME }}/.rvm/rubies/ruby-2.4.1/bin/bundler"
-#    gem_path: "{{ ansible_env.HOME }}/.rvm/gems/ruby-2.4.1"
-#    environment:
-#      PATH: "{{ ansible_env.HOME }}/.rvm/gems/ruby-2.4.1/bin:\
-#             {{ ansible_env.HOME }}/.rvm/gems/ruby-2.4.1@global/bin:\
-#             {{ ansible_env.HOME }}/.rvm/rubies/ruby-2.4.1/bin:\
-#             {{ ansible_env.HOME }}/.rvm/bin:\
-#             {{ lookup('env', 'PATH') }}"
-#      GEM_PATH: "{{ ansible_env.HOME }}/.rvm/gems/ruby-2.4.1:\
-#                 {{ ansible_env.HOME }}/.rvm/gems/ruby-2.4.1@global"
   with_items:
     - jekyll
     - bundler
-
-# roles:
-#   - { name: rvm_io.ruby, rvm1_rubies: "['{{ ruby_version }}']" }
-# tasks:
-#   - name: Install gems
-#     bundler:
-#       state: present
-#       chdir: "{{ sample_app_path }}"
-#     environment:
-#       PATH: "{{ ansible_env.HOME }}/.rvm/gems/ruby-{{ ruby_version }}/bin:\
-#              {{ ansible_env.HOME }}/.rvm/gems/ruby-{{ ruby_version }}@global/bin:\
-#              {{ ansible_env.HOME }}/.rvm/rubies/ruby-{{ ruby_version }}/bin:\
-#              {{ ansible_env.HOME }}/.rvm/bin:\
-#              {{ lookup('env', 'PATH') }}"
-#       GEM_PATH: "{{ ansible_env.HOME }}/.rvm/gems/ruby-{{ ruby_version }}:\
-#                  {{ ansible_env.HOME }}/.rvm/gems/ruby-{{ ruby_version }}@global"
+    - octopress
