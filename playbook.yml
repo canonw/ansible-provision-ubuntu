@@ -17,7 +17,7 @@
     # - { role: jmeter, become: true }
     # - { role: memcached, become: true }
     # - { role: python, become: true }
-    # - { role: sdkman, become: true }
+    # WIP # - { role: sdkman, become: true }
     # - { role: fonts, become: true }
     # - { role: nvm, become: true }
 
@@ -46,6 +46,6 @@
     # Server
     # - { role: mariadb, become: true }
     # WIP # - { role: nginx, become: true }
-    # WIP # - { role: nodejs, become: true }
+    # - { role: nodejs, become: true }
     # WIP # - { role: redis, become: true }
 

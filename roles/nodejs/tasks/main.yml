@@ -1,16 +1,23 @@
 ---
 
-- name: Installing apt-key
-  apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
-
-- name: Import the NodeSource GPG key into apt
-  apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
-
-- name: Add NodeSource deb repository
-  apt_repository: repo='deb {{ nodejs.repository }} {{ ansible_distribution_release }} main' state=present
-
-- name: Add NodeSource deb-src repository
-  apt_repository: repo='deb-src {{ nodejs.repository }} {{ ansible_distribution_release }} main' state=present
-
+# - name: Installing apt-key
+#   apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
+# 
+# - name: Import the NodeSource GPG key into apt
+#   apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
+# 
+# - name: Add NodeSource deb repository
+#   apt_repository: repo='deb {{ nodejs.repository }} {{ ansible_distribution_release }} main' state=present
+# 
+# - name: Add NodeSource deb-src repository
+#   apt_repository: repo='deb-src {{ nodejs.repository }} {{ ansible_distribution_release }} main' state=present
+# 
+# - name: Install Node.js
+#   apt: pkg=nodejs state=latest update_cache=yes
 - name: Install Node.js
-  apt: pkg=nodejs state=latest update_cache=yes
+  shell: '. {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install node'
+  become: false
+  args:
+    creates: "{{ ansible_env.HOME }}/.nvm/versions/node"
+    chdir: "{{ ansible_env.HOME }}"
+    executable: /bin/bash
