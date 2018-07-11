@@ -1,8 +1,5 @@
 ---
 
-- name: Install Terminator
-  apt: name=terminator state=present
-
 - name: Ensure local font directory exist
   file:
     path: ~/.local/share/fonts

@@ -1,0 +1,28 @@
+---
+
+# https://gist.github.com/komuW/b3b5d24977d4df7bd549
+# - name: Installing nvm
+#   shell: >
+#     curl {{ nvm.repository }} | sh
+#     creates={{ ansible_env.HOME }}/.nvm/nvm.sh
+- name: Download nvm installer
+  get_url: url="{{ nvm.repository }}" dest="/tmp/download-nvm.sh" mode="a+x"
+
+
+- name: Install nvm
+  shell: '/tmp/download-nvm.sh'
+  become: false
+  args:
+    chdir: "{{ ansible_env.HOME }}"
+    executable: /bin/bash
+
+- name: Cleanup nvm installer
+  file: path=/tmp/download-nvm.sh state=absent
+
+- name: "Configure bashrc nvm for user {{ ansible_env.USER }}"
+  lineinfile: dest="{{ ansible_env.HOME }}/.bashrc" line="{{ item }}" create="yes"
+  with_items:
+    - "# nvm setting"
+    - 'export NVM_DIR="$HOME/.nvm"'
+    - '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
+    - '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'

@@ -19,6 +19,7 @@
     # - { role: python, become: true }
     # - { role: sdkman, become: true }
     # - { role: fonts, become: true }
+    # - { role: nvm, become: true }
 
     # Ruby
     # - { role: rvm, become: true }
