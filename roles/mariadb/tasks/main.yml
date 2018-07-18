@@ -1,24 +1,5 @@
 ---
 
-# - name: Config MariaDb
-#   include_role:
-#     name: debops.mariadb
-#   vars:
-#     mariadb__port: "{ mariadb.port }}"
-#     mariadb__upstream_version: '10.3'
-#     mysql_db:
-#       name: 'dbTest'
-#       state: 'present'
-#     # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
-#     # register: application__register_database
-#     mysql_user:
-#       name: '{{ application__database_user }}'
-#       host: '{{ ansible_local.mariadb.host }}'
-#       password: '{{ application__database_password }}'
-#       priv: '{{ application__database_name }}.*:ALL'
-#       state: 'present'
-#     # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
-
 # https://downloads.mariadb.org/mariadb/repositories/#mirror=jaleco&distro=Ubuntu&distro_release=bionic--ubuntu_bionic&version=10.3
 - name: Installing apt-key
   apt_key:
@@ -51,3 +32,43 @@
   ufw:
     rule: "{{ mariadb.port_enabled | ternary('allow','deny') }}"
     port: "{{ mariadb.port }}"
+
+- name: Config MariaDb
+  include_role:
+    name: debops.mariadb
+  vars:
+    mariadb__port: "{ mariadb.port }}"
+    mariadb__upstream_version: '10.3'
+    # mysql_db:
+    #   name: 'dbTest'
+    #   state: 'present'
+    mariadb__databases:
+      - name: 'application_production'
+    
+    mariadb__users:
+      - name: 'dbapplication'
+        owner: 'dbapplication'
+   # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
+    # register: application__register_database
+    # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
+
+# - name: Config MariaDb
+#   include_role:
+#     name: debops.mariadb
+#   vars:
+#     mariadb__port: "{ mariadb.port }}"
+#     mariadb__upstream_version: '10.3'
+#     mysql_db:
+#       name: 'dbTest'
+#       state: 'present'
+#     # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
+#     # register: application__register_database
+#     mysql_user:
+#       name: '{{ application__database_user }}'
+#       host: '{{ ansible_local.mariadb.host }}'
+#       password: '{{ application__database_password }}'
+#       priv: '{{ application__database_name }}.*:ALL'
+#       state: 'present'
+#     # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
+
+
