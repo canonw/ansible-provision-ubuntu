@@ -33,24 +33,26 @@
     rule: "{{ mariadb.port_enabled | ternary('allow','deny') }}"
     port: "{{ mariadb.port }}"
 
-- name: Config MariaDb
-  include_role:
-    name: debops.mariadb
-  vars:
-    mariadb__port: "{ mariadb.port }}"
-    mariadb__upstream_version: '10.3'
-    # mysql_db:
-    #   name: 'dbTest'
-    #   state: 'present'
-    mariadb__databases:
-      - name: 'application_production'
-    
-    mariadb__users:
-      - name: 'dbapplication'
-        owner: 'dbapplication'
-   # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
-    # register: application__register_database
-    # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
+# TODO: Research initial user and database
+# - name: Config MariaDb
+#   include_role:
+#     name: debops.mariadb
+#   vars:
+#     mariadb__port: "{ mariadb.port }}"
+#     mariadb__upstream_version: '10.3'
+#     # mysql_db:
+#     #   name: 'dbTest'
+#     #   state: 'present'
+#     mariadb__databases:
+#       - name: 'application_production'
+#     
+#     mariadb__users:
+#       - name: 'dbapplication'
+#         password: 'MyPassword'
+# 
+#    # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
+#     # register: application__register_database
+#     # delegate_to: '{{ ansible_local.mariadb.delegate_to }}'
 
 # - name: Config MariaDb
 #   include_role:
