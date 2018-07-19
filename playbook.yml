@@ -17,7 +17,7 @@
     # - { role: jmeter, become: true }
     # - { role: memcached, become: true }
     # - { role: python, become: true }
-    # # WIP - { role: sdkman, become: true }
+    # - { role: sdkman, become: true }
     # - { role: fonts, become: true }
     # - { role: nvm, become: true }
 

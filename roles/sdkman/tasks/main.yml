@@ -1,33 +1,64 @@
 ---
 
-- name: Install SDKMAN
-  include_role:
-    name: Comcast.sdkman
-  vars:
-    sdkman_dir: /usr/local/sdkman
-    sdkman_user: root
-    sdkman_group: root
-    sdkman_auto_answer: true
-    sdkman_update: true
-    sdkman_install_packages:
-      - { candidate: gradle, version: 4.8.1 }
-      - { candidate: groovy, version: 2.5.0 }
-      - { candidate: maven, version: 3.5.3 }
-      - { candidate: springboot, version: 2.0.2.RELEASE }
-    sdkman_flush_caches_before:
-      - temp
-    sdkman_flush_caches_after:
-      - archives
-      - broadcast
-      - candidates
-      - temp
+- name: Check if sdkman installed
+  become: false
+  stat:
+      path: '{{ ansible_env.HOME }}/.sdkman'
+  register: sdkman_result
+
+- name: Download sdkman installer
+  get_url: url="https://get.sdkman.io" dest="/tmp/download-sdkman.sh" mode="a+x"
+  when: sdkman_result.stat.exists == 0
+
+- name: Install sdkman
+  shell: '/tmp/download-sdkman.sh'
+  become: false
+  args:
+    chdir: "{{ ansible_env.HOME }}"
+    executable: /bin/bash
+  when: sdkman_result.stat.exists == 0
+
+- name: Cleanup sdkman installer
+  file: path=/tmp/download-sdkman.sh state=absent
+  when: sdkman_result.stat.exists == 0
+
+- name: Install Java tools
+  become_user: "{{ ansible_env.USER }}"
+  command: bash -lc "[[ -x '$(command -v {{ item.command }})' ]] || (source '/home/{{ ansible_env.USER }}/.sdkman/bin/sdkman-init.sh' && sdk i {{ item.name }})"
+  with_items:
+    - { name: "maven", command: "mvn" }
+    - { name: "gradle", command: "gradle" }
+    - { name: "springboot", command: "spring" }
+    - { name: "groovy", command: "groovy" }
+    - { name: "kotlin", command: "kotlin" }
+    
+# - name: Install SDKMAN
+#   include_role:
+#     name: Comcast.sdkman
+#   vars:
+#     sdkman_dir: /usr/local/sdkman
+#     sdkman_user: root
+#     sdkman_group: root
+#     sdkman_auto_answer: true
+#     sdkman_update: true
+#     sdkman_install_packages:
+#       - { candidate: gradle, version: 4.8.1 }
+#       - { candidate: groovy, version: 2.5.0 }
+#       - { candidate: maven, version: 3.5.3 }
+#       - { candidate: springboot, version: 2.0.2.RELEASE }
+#     sdkman_flush_caches_before:
+#       - temp
+#     sdkman_flush_caches_after:
+#       - archives
+#       - broadcast
+#       - candidates
+#       - temp
 
 # Update SDKMAN variables due to change to default directory
 - name: "Configure bashrc SDKMAN for user {{ ansible_env.USER }}"
   lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
   with_items:
     - "# SDKMAN setting"
-    - "SDKMAN_DIR={{ sdkman_dir }}"
+    - "SDKMAN_DIR=$HOME/.sdkman"
     - '[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"'
-    # - '[[ -s "{{ sdkman_dir }}/bin/sdkman-init.sh" ]] && source "{{ sdkman_dir }}/bin/sdkman-init.sh"'
 
