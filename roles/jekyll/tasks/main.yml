@@ -1,11 +1,22 @@
 ---
 
-- name: Install Jekyll
-  become: true
-  gem: 
-    name: "{{ item }}"
-    state: present
+# Don't use gem but command for rbenv
+# https://stackoverflow.com/questions/22115936/install-bundler-gem-using-ansible
+- name: Install jekyll
+  become_user: "{{ ansible_env.USER }}"
+  command: bash -lc "[ $(echo `gem list {{ item }} -i`) == 'true' ] || gem install {{ item }}"
   with_items:
     - jekyll
     - bundler
     - octopress
+
+# - name: Install jekyll
+#   become: false
+#   gem: 
+#     name: "{{ item }}"
+#     state: present
+#   with_items:
+#     - jekyll
+#     - bundler
+#     - octopress
+

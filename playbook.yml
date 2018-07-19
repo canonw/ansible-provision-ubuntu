@@ -23,7 +23,7 @@
 
     # Ruby
     # - { role: rbenv, become: true }
-    # # WIP - { role: jekyll, become: true }
+    # - { role: jekyll, become: true }
 
     # GUI
     # - { role: atom, become: true }
