@@ -1,0 +1,38 @@
+---
+
+- name: Check if rbenv installed
+  become: false
+  stat:
+      path: '{{ ansible_env.HOME }}/.rbenv'
+  register: rbenv_result
+
+
+- name: Cloning rbenv repository
+  become: false
+  git: repo='https://github.com/rbenv/rbenv.git'
+       dest='{{ ansible_env.HOME }}/.rbenv'
+       update=no
+  when: rbenv_result.stat.exists == 0
+
+- name: Cloning ruby-build repository
+  become: false
+  git: repo='https://github.com/rbenv/ruby-build.git'
+       dest='{{ ansible_env.HOME }}/.rbenv/plugins/ruby-build'
+       update=no
+  when: rbenv_result.stat.exists == 0
+
+- name: "Configure bashrc rvm for user {{ ansible_env.USER }}"
+  lineinfile: dest="{{ ansible_env.HOME }}/.bashrc" line="{{ item }}" create="yes"
+  with_items:
+    - "# rbenv setting"
+    - 'export PATH="$HOME/.rbenv/bin:$PATH"'
+    - 'eval "$(rbenv init -)"'
+    - 'source $HOME/.rbenv/completions/rbenv.bash'
+  when: rbenv_result.stat.exists == 0
+
+- name: Install ruby 2.5.1 for select {{ ansible_env.USER }}
+  shell: $SHELL -lc "rbenv install --skip-existing 2.5.1 && rbenv global 2.5.1"
+  become: false
+  environment:
+    path: "{{ ansible_env.HOME }}/.rbenv/bin:{{ ansible_env.PATH }}"
+  when: rbenv_result.stat.exists == 0
