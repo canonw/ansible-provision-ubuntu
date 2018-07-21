@@ -11,7 +11,7 @@
     # - { role: homeshick, become: true }
     # - { role: awscli, become: true }
     # - { role: mitmproxy, become: true }
-    # # WIP - { role: umake, become: true }
+    # - { role: umake, become: true }
     # - { role: java-openjdk, become: true }
     # - { role: java-oracle, become: true }
     # - { role: jmeter, become: true }

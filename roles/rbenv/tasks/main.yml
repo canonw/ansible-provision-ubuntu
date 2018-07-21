@@ -6,6 +6,20 @@
       path: '{{ ansible_env.HOME }}/.rbenv'
   register: rbenv_result
 
+- name: Install pre-requisite
+  apt: pkg="{{ item }}" state=present
+  with_items:
+    - autoconf
+    - bison
+    - build-essential
+    - libssl-dev
+    - libyaml-dev
+    - libreadline-dev
+    - zlib1g-dev
+    - libncurses5-dev
+    - libffi-dev
+    - libgdbm-dev
+  when: rbenv_result.stat.exists == 0
 
 - name: Cloning rbenv repository
   become: false
@@ -36,3 +50,12 @@
   environment:
     path: "{{ ansible_env.HOME }}/.rbenv/bin:{{ ansible_env.PATH }}"
   when: rbenv_result.stat.exists == 0
+
+- name: "Configure bashrc rbenv for user {{ ansible_env.USER }}"
+  lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
+  with_items:
+    - "# rbenv"
+    # Fix this error - uncommon.mk:491: recipe for target 'rdoc' failed
+    - "export RUBY_CONFIGURE_OPTS=--disable-install-doc"
+  when: rbenv_result.stat.exists == 0
+ 
