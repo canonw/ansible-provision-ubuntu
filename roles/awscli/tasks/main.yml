@@ -5,3 +5,17 @@
   with_items:
     - awscli
     - aws-shell
+
+- name: Ensures .aws dir exists
+  become: false
+  file: path="{{ ansible_env.HOME }}/.aws/cli" state=directory 
+
+- name: "Install awscli-aliases"
+  become: false
+  get_url: url="https://raw.githubusercontent.com/awslabs/awscli-aliases/master/alias" dest="{{ ansible_env.HOME }}/.aws/cli/alias"
+    
+- name: "Configure bashrc awscli for user {{ ansible_env.USER }}"
+  lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
+  with_items:
+    - "# awscli setting"
+    - '[[ -s "/usr/local/bin/aws_completer" ]] && complete -C "/usr/local/bin/aws_completer" aws'
