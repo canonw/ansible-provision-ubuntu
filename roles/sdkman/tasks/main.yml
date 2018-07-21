@@ -59,6 +59,6 @@
   lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
   with_items:
     - "# SDKMAN setting"
-    - "SDKMAN_DIR=$HOME/.sdkman"
+    - "export SDKMAN_DIR=$HOME/.sdkman"
     - '[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"'
 
