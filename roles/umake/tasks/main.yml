@@ -9,3 +9,14 @@
     name: ubuntu-make
     state: present
     update_cache: no
+
+# TODO: Make idempotent
+- name: Install IDE
+  become_user: "{{ ansible_env.USER }}"
+  command: bash -lc "umake ide {{ item.name }} {{ item.param }} '{{ ansible_env.HOME }}/.local/share/umake/ide/{{ item.name }}'"
+  with_items:
+    - { name: "spring-tools-suite", param: "" }
+    - { name: "idea-ultimate", param: "" }
+    - { name: "datagrip", param: "" }
+    - { name: "eclipse-jee", param: "" }
+    - { name: "visual-studio-code", param: "--accept-license" }

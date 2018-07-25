@@ -44,12 +44,13 @@
     - 'source $HOME/.rbenv/completions/rbenv.bash'
   when: rbenv_result.stat.exists == 0
 
-- name: Install ruby 2.5.1 for select {{ ansible_env.USER }}
-  shell: $SHELL -lc "rbenv install --skip-existing 2.5.1 && rbenv global 2.5.1"
-  become: false
-  environment:
-    path: "{{ ansible_env.HOME }}/.rbenv/bin:{{ ansible_env.PATH }}"
-  when: rbenv_result.stat.exists == 0
+# TODO: Handle manually
+# - name: Install ruby 2.5.1 for select {{ ansible_env.USER }}
+#   shell: $SHELL -lc "rbenv install --skip-existing 2.5.1 && rbenv global 2.5.1"
+#   become: false
+#   environment:
+#     path: "{{ ansible_env.HOME }}/.rbenv/bin:{{ ansible_env.PATH }}"
+#   when: rbenv_result.stat.exists == 0
 
 - name: "Configure bashrc rbenv for user {{ ansible_env.USER }}"
   lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
