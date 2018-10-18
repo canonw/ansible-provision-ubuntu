@@ -20,7 +20,8 @@
     # - { role: sdkman, become: true }
     # - { role: fonts, become: true }
     # - { role: nvm, become: true }
-
+    # - { role: visual-studio-code, become: true }
+    
     # Ruby
     # - { role: rbenv, become: true }
     # - { role: jekyll, become: true }

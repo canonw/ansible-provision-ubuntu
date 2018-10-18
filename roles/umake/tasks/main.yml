@@ -19,4 +19,5 @@
     - { name: "idea-ultimate", param: "" }
     - { name: "datagrip", param: "" }
     - { name: "eclipse-jee", param: "" }
-    - { name: "visual-studio-code", param: "--accept-license" }
+# Use visual studio code
+#    - { name: "visual-studio-code", param: "--accept-license" }
