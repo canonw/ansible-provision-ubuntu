@@ -49,4 +49,5 @@
     # WIP - { role: nginx, become: true }
     # - { role: nodejs, become: true }
     # WIP - { role: redis, become: true }
+    # - { role: mongodb, become: true }
 
