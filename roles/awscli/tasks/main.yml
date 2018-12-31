@@ -2,7 +2,7 @@
   tags: 'aws-cli'
   become: 'yes'
   pip: name={{item}} state=present
-  with_items:
+  loop:
     - awscli
     - aws-shell
 
@@ -16,6 +16,7 @@
     
 - name: "Configure bashrc awscli for user {{ ansible_env.USER }}"
   lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
-  with_items:
+  loop:
     - "# awscli setting"
     - '[[ -s "/usr/local/bin/aws_completer" ]] && complete -C "/usr/local/bin/aws_completer" aws'
+

@@ -28,7 +28,7 @@
 
 - name: "Configure bashrc nvm for user {{ ansible_env.USER }}"
   lineinfile: dest="{{ ansible_env.HOME }}/.bashrc" line="{{ item }}" create="yes"
-  with_items:
+  loop:
     - "# nvm setting"
     - 'export NVM_DIR="$HOME/.nvm"'
     - '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'

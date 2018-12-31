@@ -5,7 +5,7 @@
     name: chromium-browser
     state: present
     update_cache: yes
-    cache_valid_time: "{{ aptcachetime }}"
+#   cache_valid_time: "{{ aptcachetime }}"
 
 - name: Set Chromium as default browser
   command: update-alternatives --install /usr/bin/x-www-browser x-www-browser /usr/bin/chromium-browser 250
@@ -36,7 +36,7 @@
   template:
     src: chrome-extensions.json.j2
     dest: "/usr/share/chromium-browser/extensions/{{ item }}.json"
-  with_items:
+  loop:
     - nckgahadagoaajjgafhacjanaoiihapd # Google hangouts
     - cjpalhdlnbpafiamejdnhcphjbkeiagm # ublock origin
     # - ajpgkpeckebdhofmmjfgcjjiiejpodla # Xmarks Bookmark Sync

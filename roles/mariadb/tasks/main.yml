@@ -15,7 +15,7 @@
     question: "{{ item }}"
     vtype: password
     value: "Password1!"
-  with_items:
+  loop:
     - mysql-server/root_password
     - mysql-server/root_password_again
   register: configure_install

@@ -1,6 +1,6 @@
 - name: Install common packages
   apt: pkg={{ item }} state=present
-  with_items:
+  loop:
     - curl
     - diffutils
     - dos2unix
@@ -58,7 +58,7 @@
 
 - name: "Configure bashrc personal aliases for user {{ ansible_env.USER }}"
   lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
-  with_items:
+  loop:
     - '[[ -s "$HOME/.kwbash_aliases" ]] && source "$HOME/.kwbash_aliases"'
 
 - name: Remove desktop shortcut

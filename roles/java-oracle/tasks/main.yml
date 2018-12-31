@@ -9,7 +9,11 @@
   apt_repository: repo='ppa:webupd8team/java'
 
 # https://www.linuxuprising.com/2018/04/install-oracle-java-10-in-ubuntu-or.html
-- name: Add Oracle Java 10 Repository
+# - name: Add Oracle Java 10 Repository
+#  become: yes
+#  apt_repository: repo='ppa:linuxuprising/java'
+
+- name: Add Oracle Java 11 Repository
   become: yes
   apt_repository: repo='ppa:linuxuprising/java'
 
@@ -24,18 +28,30 @@
 - name: Install Oracle Java 8
   become: yes
   apt: name={{item}} state=present
-  with_items:
+  loop:
     - oracle-java8-installer
     # - ca-certificates
     # - oracle-java8-set-default
 
-- name: Install Oracle Java 10
-  become: yes
-  apt: name={{item}} state=present
-  with_items:
-    - oracle-java10-installer
+# - name: Install Oracle Java 10
+#   become: yes
+#   apt: name={{item}} state=present
+#   loop:
+#     - oracle-java10-installer
     # - ca-certificates
     # - oracle-java10-set-default
+
+- name: Accept Java 11 License
+  become: yes
+  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-2' value='true' vtype='select'
+
+- name: Install Oracle Java 11
+  become: yes
+  apt: name={{item}} state=present
+  loop:
+    - oracle-java11-installer
+    # - ca-certificates
+    - oracle-java11-set-default
 
 # Fix mvn error - java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be
 #    non-empty

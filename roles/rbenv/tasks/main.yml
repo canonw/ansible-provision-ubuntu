@@ -8,7 +8,7 @@
 
 - name: Install pre-requisite
   apt: pkg="{{ item }}" state=present
-  with_items:
+  loop:
     - autoconf
     - bison
     - build-essential
@@ -37,7 +37,7 @@
 
 - name: "Configure bashrc rvm for user {{ ansible_env.USER }}"
   lineinfile: dest="{{ ansible_env.HOME }}/.bashrc" line="{{ item }}" create="yes"
-  with_items:
+  loop:
     - "# rbenv setting"
     - 'export PATH="$HOME/.rbenv/bin:$PATH"'
     - 'eval "$(rbenv init -)"'
@@ -54,7 +54,7 @@
 
 - name: "Configure bashrc rbenv for user {{ ansible_env.USER }}"
   lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
-  with_items:
+  loop:
     - "# rbenv"
     # Fix this error - uncommon.mk:491: recipe for target 'rdoc' failed
     - "export RUBY_CONFIGURE_OPTS=--disable-install-doc"

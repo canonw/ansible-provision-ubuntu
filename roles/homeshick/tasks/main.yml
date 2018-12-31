@@ -8,7 +8,7 @@
 
 - name: "Configure bashrc homeshick for user {{ ansible_env.USER }}"
   lineinfile: dest="{{ ansible_env.HOME }}/.bashrc" line="{{ item }}" create="yes"
-  with_items:
+  loop:
     - "# homeshick setting"
     - '[[ -s "$HOME/.homesick/repos/homeshick/bin" ]] && export PATH="$PATH:$HOME/.homesick/repos/homeshick/bin"'
     - '[[ -s "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash" ]] && source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"'

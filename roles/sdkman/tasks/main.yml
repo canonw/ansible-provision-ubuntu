@@ -25,7 +25,7 @@
 - name: Install Java tools
   become_user: "{{ ansible_env.USER }}"
   command: bash -lc "[[ -x '$(command -v {{ item.command }})' ]] || (source '/home/{{ ansible_env.USER }}/.sdkman/bin/sdkman-init.sh' && sdk i {{ item.name }})"
-  with_items:
+  loop:
     - { name: "maven", command: "mvn" }
     - { name: "gradle", command: "gradle" }
     - { name: "springboot", command: "spring" }
@@ -57,7 +57,7 @@
 # Update SDKMAN variables due to change to default directory
 - name: "Configure bashrc SDKMAN for user {{ ansible_env.USER }}"
   lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
-  with_items:
+  loop:
     - "# SDKMAN setting"
     - "export SDKMAN_DIR=$HOME/.sdkman"
     - '[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"'

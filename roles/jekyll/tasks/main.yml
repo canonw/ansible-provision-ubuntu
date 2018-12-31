@@ -5,7 +5,7 @@
 - name: Install jekyll
   become_user: "{{ ansible_env.USER }}"
   command: bash -lc "[ $(echo `gem list {{ item }} -i`) == 'true' ] || gem install {{ item }}"
-  with_items:
+  loop:
     - jekyll
     - bundler
     - octopress
@@ -15,7 +15,7 @@
 #   gem: 
 #     name: "{{ item }}"
 #     state: present
-#   with_items:
+#   loop:
 #     - jekyll
 #     - bundler
 #     - octopress

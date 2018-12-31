@@ -14,7 +14,7 @@
 - name: Install IDE
   become_user: "{{ ansible_env.USER }}"
   command: bash -lc "umake ide {{ item.name }} {{ item.param }} '{{ ansible_env.HOME }}/.local/share/umake/ide/{{ item.name }}'"
-  with_items:
+  loop:
     - { name: "spring-tools-suite", param: "" }
     - { name: "idea-ultimate", param: "" }
     - { name: "datagrip", param: "" }

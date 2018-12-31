@@ -8,12 +8,12 @@
 
 - name: Set workspaces preferences
   command: "{{ item }}"
-  with_items:
+  loop:
     - gsettings set org.gnome.desktop.wm.preferences num-workspaces 4
 
 - name: Set Nautilus preferences
   command: "{{ item }}"
-  with_items:
+  loop:
     - gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
     # - gsettings set org.gnome.nautilus.icon-view default-zoom-level 'smaller'
     # - gsettings set org.gnome.nautilus.list-view default-zoom-level 'smaller'
@@ -23,7 +23,7 @@
 
 - name: Set Gedit preferences
   command: "{{ item }}"
-  with_items:
+  loop:
     - gsettings set org.gnome.gedit.preferences.editor bracket-matching true
     - gsettings set org.gnome.gedit.preferences.editor create-backup-copy false
     - gsettings set org.gnome.gedit.preferences.editor display-line-numbers true
@@ -37,7 +37,7 @@
 
 - name: Set Terminal preferences
   command: "{{ item }}"
-  with_items:
+  loop:
     - gsettings set org.gnome.Terminal.Legacy.Settings new-terminal-mode 'tab'
     - gsettings set org.gnome.Terminal.Legacy.Settings tab-position 'top'
     # - gsettings set org.gnome.Terminal.Legacy.Settings encodings "['UTF-8']"

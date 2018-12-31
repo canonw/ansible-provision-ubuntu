@@ -2,7 +2,7 @@
 
 - name: Install Python packages
   apt: pkg={{ item }} state=present
-  with_items:
+  loop:
     - python
     - python-dev
     - python-pip
