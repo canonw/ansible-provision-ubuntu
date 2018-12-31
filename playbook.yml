@@ -11,6 +11,7 @@
     # - { role: homeshick, become: true }
     # - { role: awscli, become: true }
     # - { role: mitmproxy, become: true }
+    # - Delete this
     # - { role: umake, become: true }
     # - { role: java-openjdk, become: true }
     # - { role: java-oracle, become: true }
@@ -21,6 +22,8 @@
     # - { role: fonts, become: true }
     # - { role: nvm, become: true }
     # - { role: visual-studio-code, become: true }
+    # Use snap.  Need v.2.8 or hihger
+    # - { role: intellij-idea-ultimate, become: true }
     
     # Ruby
     # - { role: rbenv, become: true }
@@ -39,7 +42,6 @@
     # - { role: slack, become: true }
     # - { role: shutter, become: true }
     # - { role: terminator, become: true }
-
 
     # - { role: desktop-preferences, become: true }
     # - { role: desktop-autostart, become: true }
