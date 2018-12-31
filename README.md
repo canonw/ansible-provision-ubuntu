@@ -32,6 +32,11 @@ echo -e "[local]\n127.0.0.1" | sudo tee -a /etc/ansible/hosts && \
 # 
 ```
 
+```
+sudo apt-add-repository ppa:ansible/ansible -y
+sudo apt install ansible -y
+```
+
 ## Begin Provisioning
 
 1. Review playbool.yml and uncommet roles intended to install.
