@@ -24,6 +24,7 @@
     # - { role: visual-studio-code, become: true }
     # Use snap.  Need v.2.8 or hihger
     # - { role: intellij-idea-ultimate, become: true }
+    # - { role: eclipse, become: true }
     
     # Ruby
     # - { role: rbenv, become: true }
