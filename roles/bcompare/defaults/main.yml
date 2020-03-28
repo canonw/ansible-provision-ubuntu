@@ -1,4 +1,5 @@
 ---
 
 bcompare:
-  repository: https://www.scootersoftware.com/bcompare-4.2.8.23479_amd64.deb
+  repository: https://www.scootersoftware.com/bcompare-4.3.4.24657_amd64.deb
+  temp_file: /tmp/download-bcompare.deb

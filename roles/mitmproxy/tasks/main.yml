@@ -1,15 +1,19 @@
 ---
 
-- name: Install python3-pip package
-  action: apt pkg=python3-pip state=present
-
-- name: Install mitmproxy
+- name: pip install
   pip:
-    name: mitmproxy
-    state: present
-    executable: pip3
+    name: "{{ item.name }}"
+    state: "{{ item.state | default(None) or omit }}"
+    version: "{{ item.version | default(None) or omit }}"
+    extra_args: "{{ item.extra_args | default(None) or omit }}"
+    executable: "pip3"
+  vars:
+    ansible_python_interpreter: "/usr/bin/python3"
+  with_items:
+    - { state: "latest", name: "mitmproxy" }
 
-- name: " {{ mitmproxy.port_enabled | ternary('Allow','deny') }} port access"
+- name: " {{ mitmproxy.port_enabled | ternary('allow','deny') }} port access"
   ufw:
     rule: "{{ mitmproxy.port_enabled | ternary('allow','deny') }}"
-    port: 8080
+    port: "8080"
+

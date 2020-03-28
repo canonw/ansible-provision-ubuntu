@@ -1,34 +1,38 @@
 ---
 
-- name: Check if sdkman installed
-  become: false
+- name: is installed
+  become: no
   stat:
       path: '{{ ansible_env.HOME }}/.sdkman'
-  register: sdkman_result
+  register: is_installed
 
-- name: Download sdkman installer
-  get_url: url="https://get.sdkman.io" dest="/tmp/download-sdkman.sh" mode="a+x"
-  when: sdkman_result.stat.exists == 0
+- name: wget
+  get_url:
+    url: "https://get.sdkman.io"
+    dest: "/tmp/download-sdkman.sh"
+    mode: "a+x"
+  when: is_installed.stat.exists == 0
 
-- name: Install sdkman
+- name: shell
   shell: '/tmp/download-sdkman.sh'
-  become: false
+  become: no
   args:
     chdir: "{{ ansible_env.HOME }}"
     executable: /bin/bash
-  when: sdkman_result.stat.exists == 0
+  when: is_installed.stat.exists == 0
 
-- name: Cleanup sdkman installer
-  file: path=/tmp/download-sdkman.sh state=absent
-  when: sdkman_result.stat.exists == 0
+- name: install
+  file:
+    path: /tmp/download-sdkman.sh
+    state: absent
+  when: is_installed.stat.exists == 0
 
-- name: Install Java tools
+- name: sdkman install
   become_user: "{{ ansible_env.USER }}"
   command: bash -lc "[[ -x '$(command -v {{ item.command }})' ]] || (source '/home/{{ ansible_env.USER }}/.sdkman/bin/sdkman-init.sh' && sdk i {{ item.name }})"
   loop:
     - { name: "maven", command: "mvn" }
     - { name: "gradle", command: "gradle" }
-    - { name: "springboot", command: "spring" }
     - { name: "groovy", command: "groovy" }
     - { name: "kotlin", command: "kotlin" }
     
@@ -54,11 +58,13 @@
 #       - candidates
 #       - temp
 
-# Update SDKMAN variables due to change to default directory
-- name: "Configure bashrc SDKMAN for user {{ ansible_env.USER }}"
-  lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
-  loop:
-    - "# SDKMAN setting"
-    - "export SDKMAN_DIR=$HOME/.sdkman"
-    - '[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"'
+- name: update .bashrc
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - sdkman"
+    dest: "/home/{{ ansible_env.USER }}/.bashrc"
+    backup: yes
+    block: |
+      export SDKMAN_DIR=$HOME/.sdkman
+      [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
+    state: present
 

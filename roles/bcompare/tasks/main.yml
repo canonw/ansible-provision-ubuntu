@@ -1,17 +1,23 @@
 ---
 
 # https://www.scootersoftware.com/download.php?zz=kb_linux_install
-- name: Download bcompare archive
-  get_url: url="{{ bcompare.repository }}" dest="/tmp/download-bcompare.deb"
+- name: wget
+  get_url:
+    url: "{{ bcompare.repository }}"
+    dest: "{{ bcompare.temp_file }}"
 
-- name: Install gdebi
-  become: yes
-  apt: name=gdebi-core state=present
-  
-- name: Install bcompare
-  become: yes
-  command: gdebi /tmp/download-bcompare.deb -n
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "latest", name: "gdebi-core" }
 
-- name: Cleanup bcompare installer
-  file: path=/tmp/download-bcompare.deb state=absent
+- name: install
+  command: "{{ 'gdebi ' + bcompare.temp_file + ' -n' }}"
+
+- name: cleanup
+  file:
+    path: "{{ bcompare.temp_file }}"
+    state: absent
 

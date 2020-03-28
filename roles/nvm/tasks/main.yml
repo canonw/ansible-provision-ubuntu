@@ -5,31 +5,40 @@
 #   shell: >
 #     curl {{ nvm.repository }} | sh
 #     creates={{ ansible_env.HOME }}/.nvm/nvm.sh
-- name: Check is nvm installed
+- name: is installed
   stat:
       path: $HOME/.nvm/nvm.sh
-  register: nvm_result
+  register: is_installed
 
-- name: Download nvm installer
-  get_url: url="{{ nvm.repository }}" dest="/tmp/download-nvm.sh" mode="a+x"
-  when: nvm_result.stat.exists == 0
+- name: wget
+  get_url:
+    url: "{{ nvm.repository }}"
+    dest: "/tmp/download-nvm.sh"
+    mode: "a+x"
+  when: is_installed.stat.exists == 0
 
-- name: Install nvm
+- name: install
   shell: '/tmp/download-nvm.sh'
-  become: false
+  become: no
   args:
     chdir: "{{ ansible_env.HOME }}"
     executable: /bin/bash
-  when: nvm_result.stat.exists == 0
+  when: is_installed.stat.exists == 0
 
-- name: Cleanup nvm installer
-  file: path=/tmp/download-nvm.sh state=absent
-  when: nvm_result.stat.exists == 0
+- name: cleanup
+  file:
+    path: /tmp/download-nvm.sh
+    state: absent
+  when: is_installed.stat.exists == 0
 
-- name: "Configure bashrc nvm for user {{ ansible_env.USER }}"
-  lineinfile: dest="{{ ansible_env.HOME }}/.bashrc" line="{{ item }}" create="yes"
-  loop:
-    - "# nvm setting"
-    - 'export NVM_DIR="$HOME/.nvm"'
-    - '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
-    - '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
+- name: update .bashrc
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - nvm"
+    dest: "/home/{{ ansible_env.USER }}/.bashrc"
+    backup: yes
+    block: |
+      export NVM_DIR=$HOME/.nvm
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    state: present
+

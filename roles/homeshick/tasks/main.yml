@@ -1,14 +1,31 @@
 ---
+
 # https://github.com/andsens/homeshick
-- name: "Install homeshick for user {{ ansible_env.USER }}"
+- name: git clone
   git:
     repo: 'https://github.com/andsens/homeshick.git'
     dest: "{{ ansible_env.HOME }}/.homesick/repos/homeshick"
   become_user: "{{ ansible_env.USER }}"
 
-- name: "Configure bashrc homeshick for user {{ ansible_env.USER }}"
-  lineinfile: dest="{{ ansible_env.HOME }}/.bashrc" line="{{ item }}" create="yes"
-  loop:
-    - "# homeshick setting"
-    - '[[ -s "$HOME/.homesick/repos/homeshick/bin" ]] && export PATH="$PATH:$HOME/.homesick/repos/homeshick/bin"'
-    - '[[ -s "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash" ]] && source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"'
+- name: update .bashrc
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - homeshick"
+    dest: "{{ ansible_env.HOME }}/.bashrc"
+    backup: yes
+    block: |
+      [[ -s "$HOME/.homesick/repos/homeshick/bin" ]] && export PATH="$PATH:$HOME/.homesick/repos/homeshick/bin"
+      [[ -s "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash" ]] && source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"
+    state: present
+
+# TODO
+# - name: Download BASH personal aliases for {{ ansible_env.USER }} user
+#   get_url:
+#     url: https://gist.githubusercontent.com/canonw/d2b8f0a0c10d9a71be3f53f69d3c94b9/raw
+#     dest:  "/home/{{ ansible_env.USER }}/.kwbash_aliases"
+#     owner: "{{ ansible_env.USER }}"
+
+# - name: "Configure bashrc personal aliases for user {{ ansible_env.USER }}"
+#   lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
+#   loop:
+#     - '[[ -s "$HOME/.kwbash_aliases" ]] && source "$HOME/.kwbash_aliases"'
+

@@ -1,22 +1,25 @@
+---
 
-- name: Install SSH server
+- name: apt install
   apt:
-    name: "openssh-server"
-    state: present
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "latest", name: "openssh-server" }
 
-- name: "{{ ssh.password_auth | ternary('Allow','Disallow') }} password authentication"
+- name: "{{ ssh.password_auth | ternary('allow','disallow') }} password authentication"
   lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication {{ ssh.password_auth | ternary('yes','no') }}" state=present
 
-- name: "{{ ssh.root_login | ternary('Allow','Disallow') }} root SSH access"
+- name: "{{ ssh.root_login | ternary('allow','disallow') }} root ssh access"
   lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin {{ ssh.root_login | ternary('yes','no') }}" state=present
 
-- name: "Ensure SSH is {{ ssh.start | ternary('started','stopped') }}"
+- name: "ensure ssh is {{ ssh.start | ternary('started','stopped') }}"
   service:
     name: ssh
     state: "{{ ssh.start | ternary('restarted','stopped') }}"
     enabled: "{{ ssh.service_enabled }}"
 
-- name: " {{ ssh.port_enabled | ternary('Allow','deny') }} port access"
+- name: "{{ ssh.port_enabled | ternary('allow','deny') }} port access"
   ufw:
     rule: "{{ ssh.port_enabled | ternary('allow','deny') }}"
-    port: 22
+    port: "22"

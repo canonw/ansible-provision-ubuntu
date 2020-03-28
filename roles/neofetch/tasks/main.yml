@@ -1,0 +1,16 @@
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "latest", name: "neofetch" }
+
+- name: update .bashrc
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - neofetch"
+    dest: "/home/{{ ansible_env.USER }}/.bashrc"
+    backup: yes
+    block: |
+      [[ -x "$(command -v neofetch)" ]]  && neofetch
+    state: present
+

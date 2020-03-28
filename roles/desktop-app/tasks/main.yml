@@ -1,0 +1,19 @@
+---
+
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "latest", name: "snapd" }
+
+- name: snap install
+  snap:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    classic: yes
+  with_items:
+    - { state: "present", name: "intellij-idea-ultimate" }
+    - { state: "present", name: "notepadqq" }
+    - { state: "present", name: "slack" } 
+

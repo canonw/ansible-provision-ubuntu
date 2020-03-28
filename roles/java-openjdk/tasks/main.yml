@@ -1,9 +1,13 @@
 ---
 
-- name: Install default OpenJDK
-  apt: pkg={{ item }} state=present
-  loop:
-    - default-jdk
-    - default-jre-headless
-    - openjdk-11-jdk
-    - openjdk-8-jdk
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "latest", name: "default-jdk" }
+    - { state: "latest", name: "default-jre-headless" }
+    - { state: "latest", name: "openjdk-14-jdk" }
+    - { state: "latest", name: "openjdk-8-jdk" }
+
+

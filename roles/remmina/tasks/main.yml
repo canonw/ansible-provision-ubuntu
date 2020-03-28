@@ -1,10 +1,19 @@
 ---
 
-- name: Configure the Remmina PPA
-  apt_repository: repo="ppa:remmina-ppa-team/remmina-next" state=present
+- name: apt-add-repository
+  apt_repository:
+    repo: "{{ item.repo }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "present", repo: "ppa:remmina-ppa-team/remmina-next" }
 
-- name: Install Remmina
-  apt: pkg="{{ item }}" state=present
-  loop:
-    - remmina
-    - remmina-plugin-rdp
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "latest", name: "remmina" }
+    - { state: "latest", name: "remmina-plugin-rdp" }
+    - { state: "latest", name: "remmina-plugin-secret" }
+    - { state: "latest", name: "remmina-plugin-vnc" }
+

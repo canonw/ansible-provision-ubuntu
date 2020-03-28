@@ -1,0 +1,34 @@
+---
+
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "latest", name: "fonts-powerline" }
+
+- name: wget
+  get_url:
+    url: "{{ starship.repository }}"
+    dest: "/tmp/download-starship.sh"
+    mode: "a+x"
+
+- name: install
+  shell: /tmp/download-starship.sh -f
+  args:
+    executable: /bin/bash
+
+- name: cleanup
+  file:
+    path: /tmp/download-starship.sh
+    state: absent
+
+- name: update .bashrc
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - starship"
+    dest: "/home/{{ ansible_env.USER }}/.bashrc"
+    backup: yes
+    block: |
+      eval "$(starship init bash)"
+    state: present
+

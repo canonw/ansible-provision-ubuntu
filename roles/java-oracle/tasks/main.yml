@@ -1,65 +1,28 @@
 ---
 
-- name: Install add-apt-repostory
-  become: yes
-  apt: name=software-properties-common state=latest
+- name: apt-add-repository
+  apt_repository:
+    repo: "{{ item.repo }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "present", repo: "ppa:linuxuprising/java" }
 
-- name: Add Oracle Java 8 Repository
-  become: yes
-  apt_repository: repo='ppa:webupd8team/java'
+# - name: accept license
+#   debconf: name='oracle-java14-installer' question='shared/accepted-oracle-license-v1-2' value='true' vtype='select'
 
-# https://www.linuxuprising.com/2018/04/install-oracle-java-10-in-ubuntu-or.html
-# - name: Add Oracle Java 10 Repository
-#  become: yes
-#  apt_repository: repo='ppa:linuxuprising/java'
-
-- name: Add Oracle Java 11 Repository
-  become: yes
-  apt_repository: repo='ppa:linuxuprising/java'
-
-- name: Update apt cache
-  become: yes
-  apt: update_cache=true
-
-- name: Accept Java 8 License
-  become: yes
-  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
-
-- name: Install Oracle Java 8
-  become: yes
-  apt: name={{item}} state=present
-  loop:
-    - oracle-java8-installer
-    # - ca-certificates
-    # - oracle-java8-set-default
-
-# - name: Install Oracle Java 10
-#   become: yes
-#   apt: name={{item}} state=present
-#   loop:
-#     - oracle-java10-installer
-    # - ca-certificates
-    # - oracle-java10-set-default
-
-- name: Accept Java 11 License
-  become: yes
-  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-2' value='true' vtype='select'
-
-- name: Install Oracle Java 11
-  become: yes
-  apt: name={{item}} state=present
-  loop:
-    - oracle-java11-installer
-    # - ca-certificates
-    - oracle-java11-set-default
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "latest", name: "oracle-java14-installer" }
+    - { state: "latest", name: "oracle-java14-set-default" }
 
 # Fix mvn error - java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be
 #    non-empty
 # https://stackoverflow.com/a/50688351
-- name: Remove cacerts
-  become: yes
+- name: remove cacerts
   file: path='/etc/ssl/certs/java/cacerts' state=absent
 
-- name: Update cacerts index for java
-  become: yes
+- name: update cacerts
   shell: /usr/sbin/update-ca-certificates -f

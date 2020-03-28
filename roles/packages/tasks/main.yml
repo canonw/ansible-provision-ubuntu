@@ -1,0 +1,70 @@
+- name: apt install command line
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "latest", name: "colordiff" }
+    - { state: "latest", name: "cowsay" }
+    - { state: "latest", name: "curl" }
+    - { state: "latest", name: "diffutils" }
+    - { state: "latest", name: "dos2unix" }
+    - { state: "latest", name: "grep" }
+    - { state: "latest", name: "graphviz" }
+    - { state: "latest", name: "gzip" }
+    - { state: "latest", name: "htop" }
+    - { state: "latest", name: "httpie" }
+    - { state: "latest", name: "jq" }
+    - { state: "latest", name: "less" }
+    - { state: "latest", name: "net-tools" }
+    - { state: "latest", name: "openssl" }
+    - { state: "latest", name: "rar" }
+    - { state: "latest", name: "rsync" }
+    - { state: "latest", name: "silversearcher-ag" }
+    - { state: "latest", name: "software-properties-common" }
+    - { state: "latest", name: "sshpass" }
+    - { state: "latest", name: "snapd" }
+    - { state: "latest", name: "tar" }
+    - { state: "latest", name: "trash-cli" }
+    - { state: "latest", name: "tree" }
+    - { state: "latest", name: "unzip" }
+    - { state: "latest", name: "wget" }
+    - { state: "latest", name: "zip" }
+
+- name: apt install font
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "latest", name: "fonts-arphic-ukai" }
+    - { state: "latest", name: "fonts-arphic-uming" }
+    - { state: "latest", name: "fonts-dejavu" }
+    - { state: "latest", name: "fonts-dejavu-core" }
+    - { state: "latest", name: "fonts-dejavu-extra" }
+    - { state: "latest", name: "fonts-firacode" }
+    - { state: "latest", name: "fonts-nanum-coding" }
+    - { state: "latest", name: "fonts-noto" }
+    - { state: "latest", name: "fonts-noto-cjk" }
+    - { state: "latest", name: "fonts-noto-cjk-extra" }
+    - { state: "latest", name: "fonts-noto-core" }
+    - { state: "latest", name: "fonts-noto-extra" }
+    - { state: "latest", name: "fonts-noto-hinted" }
+    - { state: "latest", name: "fonts-noto-mono" }
+    - { state: "latest", name: "fonts-noto-unhinted" }
+    - { state: "latest", name: "fonts-roboto" }
+    - { state: "latest", name: "fonts-takao-gothic" }
+    - { state: "latest", name: "fonts-takao-mincho" }
+    - { state: "latest", name: "fonts-ubuntu" }
+    - { state: "latest", name: "fonts-unfonts-core" }
+
+- name: apt install gui
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "latest", name: "filezilla" }
+    # Note: no longer active
+    # - { state: "latest", name: "shutter" }
+    - { state: "latest", name: "flameshot" }
+
+    - { state: "latest", name: "chrome-gnome-shell" }
+

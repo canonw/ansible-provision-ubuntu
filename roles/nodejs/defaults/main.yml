@@ -1,4 +1,5 @@
 ---
 
-# nodejs:
-#   repository: "https://deb.nodesource.com/node_8.x"
+nodejs:
+  version: "12.x"
+

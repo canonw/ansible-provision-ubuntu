@@ -1,56 +1,51 @@
 ---
 
-- name: ubuntu setup playbook
-  hosts: localhost
-  connection: local
-  gather_facts: true
+- name: Ubuntu environment playbook
+  hosts: all
+  # remote_user: root
   roles:
-    # - { role: locales, become: true }
-    # - { role: common, become: true }
-    # - { role: ssh, become: true }
-    # - { role: homeshick, become: true }
-    # - { role: awscli, become: true }
-    # - { role: mitmproxy, become: true }
-    # - Delete this
-    # - { role: umake, become: true }
+    - { role: locales, become: true }
+
     # - { role: java-openjdk, become: true }
     # - { role: java-oracle, become: true }
-    # - { role: jmeter, become: true }
-    # - { role: memcached, become: true }
     # - { role: python, become: true }
-    # - { role: sdkman, become: true }
-    # - { role: fonts, become: true }
-    # - { role: nvm, become: true }
-    # - { role: visual-studio-code, become: true }
-    # Use snap.  Need v.2.8 or hihger
-    # - { role: intellij-idea-ultimate, become: true }
-    # - { role: eclipse, become: true }
-    
-    # Ruby
-    # - { role: rbenv, become: true }
-    # - { role: jekyll, become: true }
+    # - { role: nodejs, become: true }
+    # - { role: dotnet, become: true }
 
-    # GUI
-    # - { role: atom, become: true }
-    # - { role: bcompare, become: true }
-    # - { role: emacs, become: true }
-    # - { role: chromium, become: true }
-    # - { role: filezilla, become: true }
-    # - { role: firefox, become: true }
-    # - { role: nautilus-plugins, become: true }
-    # - { role: notepadqq, become: true }
-    # - { role: remmina, become: true }
-    # - { role: slack, become: true }
-    # - { role: shutter, become: true }
+    # - { role: mitmproxy, become: true }
+    # - { role: git, become: true }
+    # - { role: packages, become: true }
+    # - { role: ssh, become: true }
+
+    # - { role: homeshick, become: true }
+    # - { role: neofetch, become: true }
+    # - { role: starship, become: true }
     # - { role: terminator, become: true }
 
-    # - { role: desktop-preferences, become: true }
-    # - { role: desktop-autostart, become: true }
-    
-    # Server
-    # WIP - { role: mariadb, become: true }
-    # WIP - { role: nginx, become: true }
-    # - { role: nodejs, become: true }
-    # WIP - { role: redis, become: true }
-    # - { role: mongodb, become: true }
+    # # GUI
+    # - { role: desktop-app, become: true }
 
+    # - { role: desktop-preferences, become: true }
+    # - { role: nautilus-plugins, become: true }
+
+    # - { role: bcompare, become: true }
+    # - { role: chrome, become: true }
+    # - { role: emacs, become: true }
+    # - { role: remmina, become: true }
+
+    # - { role: vscode, become: true }
+    # - { role: awscli, become: true }
+    # - { role: certbot, become: true }
+
+    # - { role: sdkman, become: true }
+    # - { role: nvm, become: true }
+
+    # - { role: memcached, become: true }
+    # - { role: docker, become: true }
+    # - { role: mariadb, become: true }
+
+# WIP - { role: desktop-autostart, become: true }
+
+# WIP - { role: mongodb, become: true }
+# WIP - { role: nginx, become: true }
+# WIP - { role: redis, become: true }

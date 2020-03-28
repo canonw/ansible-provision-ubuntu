@@ -1,0 +1,10 @@
+{
+    "BookmarkBarEnabled": true,
+    "DefaultBrowserSettingEnabled": false,
+    "ShowAppsShortcutInBookmarkBar": false,
+    "ShowHomeButton": true,
+    "TranslateEnabled": false,
+    "HomepageIsNewTabPage": false,
+    "HomepageLocation": "https://www.google.com/",
+    "RestoreOnStartup": 1
+}

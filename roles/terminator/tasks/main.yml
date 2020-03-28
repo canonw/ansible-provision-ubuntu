@@ -1,15 +1,19 @@
 ---
 
-- name: Install Terminator
-  apt: name=terminator state=present
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "latest", name: "terminator" }
 
-- name: Ensure Terminator config directory exist
+- name: config directory
   file:
     path: ~/.config/terminator
     state: directory
   become: no
 
-- name: Copy Terminator config
+- name: copy config
   copy:
     src: config
     dest: ~/.config/terminator/config

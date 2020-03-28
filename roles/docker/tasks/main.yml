@@ -1,0 +1,32 @@
+---
+
+# https://docs.docker.com/install/linux/docker-ce/ubuntu/
+- name: apt-key add
+  apt_key:
+    url: "{{ item.url }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "present", url: "https://download.docker.com/linux/ubuntu/gpg" }
+
+- name: apt-add-repository
+  apt_repository:
+    repo: "{{ item.repo }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "present", repo: "deb [ arch=amd64 ] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable" }
+
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "absent", name: "docker" }
+    - { state: "latest", name: "docker-ce" }
+    - { state: "latest", name: "docker-ce-cli" }
+    - { state: "latest", name: "containerd.io" }
+
+- name: "{{ docker.start | ternary('started','stopped') }} service"
+  service:
+    name: docker
+    state: "{{ docker.start | ternary('restarted','stopped') }}"
+    enabled: "{{ docker.service_enabled }}"

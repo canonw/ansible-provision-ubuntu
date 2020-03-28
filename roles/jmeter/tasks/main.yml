@@ -1,4 +1,0 @@
----
-
-- name: Install JMeter
-  apt: pkg=jmeter state=present

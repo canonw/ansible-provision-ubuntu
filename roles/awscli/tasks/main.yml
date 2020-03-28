@@ -1,22 +1,30 @@
-- name: Install AWS CLI
-  tags: 'aws-cli'
-  become: 'yes'
-  pip: name={{item}} state=present
-  loop:
-    - awscli
-    - aws-shell
+- name: pip install
+  pip:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default(None) or omit }}"
+    version: "{{ item.version | default(None) or omit }}"
+    extra_args: "{{ item.extra_args | default(None) or omit }}"
+    executable: "pip3"
+  vars:
+    ansible_python_interpreter: "/usr/bin/python3"
+  with_items:
+    - { state: "latest", name: "awscli" }
+    - { state: "latest", name: "aws-shell" }
 
-- name: Ensures .aws dir exists
-  become: false
+- name: create ~/.aws directory
+  become: no
   file: path="{{ ansible_env.HOME }}/.aws/cli" state=directory 
 
-- name: "Install awscli-aliases"
-  become: false
+- name: install awscli-aliases
+  become: no
   get_url: url="https://raw.githubusercontent.com/awslabs/awscli-aliases/master/alias" dest="{{ ansible_env.HOME }}/.aws/cli/alias"
     
-- name: "Configure bashrc awscli for user {{ ansible_env.USER }}"
-  lineinfile: dest="/home/{{ ansible_env.USER }}/.bashrc" line="{{ item }}" create="yes"
-  loop:
-    - "# awscli setting"
-    - '[[ -s "/usr/local/bin/aws_completer" ]] && complete -C "/usr/local/bin/aws_completer" aws'
+- name: update .bashrc
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - awscli"
+    dest: "/home/{{ ansible_env.USER }}/.bashrc"
+    backup: yes
+    block: |
+      [[ -s "/usr/local/bin/aws_completer" ]] && complete -C "/usr/local/bin/aws_completer" aws
+    state: present
 

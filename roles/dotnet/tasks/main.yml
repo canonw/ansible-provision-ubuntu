@@ -1,0 +1,59 @@
+---
+
+- name: dpkg -W
+  command: dpkg-query -W dotnet
+  register: is_installed
+  failed_when: false
+  changed_when: false
+
+# https://docs.microsoft.com/en-us/dotnet/core/install/linux-package-manager-ubuntu-1904
+- name: wget
+  get_url:
+    url: "{{ 'https://packages.microsoft.com/config/ubuntu/' + ansible_distribution_version + '/packages-microsoft-prod.deb' }}"
+    dest: "{{ dotnet.temp_file }}"
+  when: is_installed.rc == 1
+
+- name: dpkg install
+  command: "{{ 'dpkg -i ' + dotnet.temp_file }}"
+  when: is_installed.rc == 1
+
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    update_cache: yes
+  with_items:
+    - { state: "latest", name: "apt-transport-https" }
+  when: is_installed.rc == 1
+
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    update_cache: yes
+  with_items:
+    - { state: "latest", name: "dotnet-sdk-3.1" }
+    - { state: "latest", name: "dotnet-sdk-2.1" }
+  when: is_installed.rc == 1
+
+- name: cleanup
+  file:
+    path: "{{ dotnet.temp_file }}"
+    state: absent
+  when: is_installed.rc == 1
+
+# Bash completion
+- name: wget
+  get_url:
+    url: "https://raw.githubusercontent.com/dotnet/cli/master/scripts/register-completions.bash"
+    dest: "/etc/bash_completion.d/dotnet-core"
+
+- name: update .bashrc
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - dotnet"
+    dest: "/home/{{ ansible_env.USER }}/.bashrc"
+    backup: yes
+    block: |
+      [[ -s "source /etc/bash_completion.d/dotnet-core" ]] &&  source /etc/bash_completion.d/dotnet-core
+    state: present
+

@@ -15,8 +15,10 @@
   notify:
     - Update TimeZone data
 
-- name: Install chrony package
-  action: apt pkg=chrony state=present
-
-- name: Install ntp package
-  action: apt pkg=ntp state=absent
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "absent", name: "ntp" }
+    - { state: "latest", name: "chrony" }

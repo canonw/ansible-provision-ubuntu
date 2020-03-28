@@ -1,0 +1,76 @@
+---
+
+- name: apt-key add
+  apt_key:
+    url: "{{ item.url }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "present", url: "https://dl-ssl.google.com/linux/linux_signing_key.pub" }
+
+- name: apt-add-repository
+  apt_repository:
+    repo: "{{ item.repo }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "present", repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" }
+
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "absent", name: "chromium-browser" }
+    - { state: "latest", name: "google-chrome-stable" }
+
+- name: default browser
+  command: update-alternatives --install /usr/bin/x-www-browser x-www-browser /usr/bin/google-chrome 250
+  when: chrome.set_default == true
+
+- name: remove duplicated apt source list
+  file:
+    path: "{{ item.path }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "absent", path: "/etc/apt/sources.list.d/google-chrome.list" }
+    - { state: "absent", path: "/etc/apt/sources.list.d/google-chrome.list.save" }
+
+# See https://cloud.google.com/docs/chrome-enterprise/policies/
+- name: policies directory for all users
+  file:
+    path: /etc/opt/chrome/policies/managed/
+    state: directory
+  when: chrome.policy
+
+- name: policies directory for all users
+  copy:
+    src: policy.json
+    dest: "/etc/opt/chrome/policies/managed/kwong-policy.json"
+    mode: 644
+  when: chrome.policy
+
+
+- name: extensions directory for all users
+  file:
+    path: /usr/share/google-chrome/extensions
+    state: directory
+  when: chrome.extensions
+
+# See https://developer.chrome.com/extensions/external_extensions#preferences
+- name: extensions for all users
+  template:
+    src: chrome-extensions.json.j2
+    dest: "/usr/share/google-chrome/extensions/{{ item.id }}.json"
+    mode: 0644
+  with_items:
+    - { id: "dapjbgnjinbpoindlpdmhochffioedbn", name: "BuiltWith Technology Profiler" }
+    - { id: "nhdogjmejiglipccpnnnanhbledajbpd", name: "vue.js devtools" }
+    - { id: "nckgahadagoaajjgafhacjanaoiihapd", name: "google hangouts" }
+    # - ajpgkpeckebdhofmmjfgcjjiiejpodla # Xmarks Bookmark Sync
+    # - bcjindcccaagfpapjjmafapmmgkkhgoa # JSON Formatter
+    # - fjnbnpbmkenffdnngjfgmeleoegfcffe # Stylish
+    # - jbbplnpkjmmeebjpijfedlgcdilocofh # wave-evaluation-tool
+    # - idgpnmonknjnojddfkpgkljpfnnfcklj # ModHeader
+    # - jgbbilmfbammlbbhmmgaagdkbkepnijn # Cookie Inspector
+    # - deoaddaobnieaecelinfdllcgdehimih # kimono
+  when: chrome.extensions
+

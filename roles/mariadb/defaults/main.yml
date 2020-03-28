@@ -1,4 +1,5 @@
 mariadb:
   port_enabled: false
   port: 3306
-
+  start: true
+  service_enabled: true

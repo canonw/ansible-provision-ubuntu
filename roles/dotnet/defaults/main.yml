@@ -1,0 +1,4 @@
+---
+
+dotnet:
+  temp_file: /tmp/packages-microsoft-prod.deb

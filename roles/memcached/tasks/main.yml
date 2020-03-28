@@ -1,7 +1,14 @@
 ---
 
-- name: Install Memcached
-  apt: pkg=memcached state=present
+- name: apt install
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { state: "latest", name: "memcached" }
 
-- name: "Ensure Memcached is {{ memcached.start | ternary('started','stopped') }}"
-  service: name=memcached state={{ memcached.start | ternary('restarted','stopped') }} enabled={{ memcached.service_enabled }}
+- name: "{{ memcached.start | ternary('started','stopped') }} service"
+  service:
+    name: memcached
+    state: "{{ memcached.start | ternary('restarted','stopped') }}"
+    enabled: "{{ memcached.service_enabled }}"
