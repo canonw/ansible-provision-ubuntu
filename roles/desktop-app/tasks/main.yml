@@ -5,15 +5,15 @@
     name: "{{ item.name }}"
     state: "{{ item.state }}"
   with_items:
-    - { state: "latest", name: "snapd" }
+    - { state: "present", name: "snapd" }
 
 - name: snap install
   snap:
     name: "{{ item.name }}"
     state: "{{ item.state }}"
-    classic: yes
+    classic: "{{ item.classic | default('yes') }}"
   with_items:
     - { state: "present", name: "intellij-idea-ultimate" }
     - { state: "present", name: "notepadqq" }
-    - { state: "present", name: "slack" } 
+    - { state: "present", name: "slack" }
 

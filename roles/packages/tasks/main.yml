@@ -30,6 +30,14 @@
     - { state: "latest", name: "wget" }
     - { state: "latest", name: "zip" }
 
+- name: snap install
+  snap:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    classic: "{{ item.classic | default('yes') }}"
+  with_items:
+    - { state: "present", name: "powershell" }
+
 - name: apt install font
   apt:
     name: "{{ item.name }}"
