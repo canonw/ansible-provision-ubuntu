@@ -44,8 +44,10 @@
     # - { role: docker, become: true }
     # - { role: mariadb, become: true }
 
-# WIP - { role: desktop-autostart, become: true }
+    # WIP - { role: desktop-autostart, become: true }
 
-# WIP - { role: mongodb, become: true }
-# WIP - { role: nginx, become: true }
-# WIP - { role: redis, become: true }
+    # WIP - { role: mongodb, become: true }
+    # WIP - { role: nginx, become: true }
+    # WIP - { role: redis, become: true }
+
+# - import_playbook: install-vue.yml

@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+  remote_user: root
+  become: "yes"
+  tasks:
+    - name: npm install
+      npm:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+        global: "yes"
+      with_items:
+        - { state: "latest", name: "@vue/cli" }
