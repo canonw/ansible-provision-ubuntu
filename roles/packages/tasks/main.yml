@@ -16,7 +16,9 @@
     - { state: "latest", name: "jq" }
     - { state: "latest", name: "less" }
     - { state: "latest", name: "net-tools" }
+    - { state: "latest", name: "nmap" }
     - { state: "latest", name: "openssl" }
+    - { state: "latest", name: "pwgen" }
     - { state: "latest", name: "rar" }
     - { state: "latest", name: "rsync" }
     - { state: "latest", name: "silversearcher-ag" }
@@ -27,6 +29,8 @@
     - { state: "latest", name: "trash-cli" }
     - { state: "latest", name: "tree" }
     - { state: "latest", name: "unzip" }
+    - { state: "latest", name: "xclip" }
+    - { state: "latest", name: "xsel" }
     - { state: "latest", name: "wget" }
     - { state: "latest", name: "zip" }
 
