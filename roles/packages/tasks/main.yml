@@ -13,7 +13,6 @@
     - { state: "latest", name: "gzip" }
     - { state: "latest", name: "htop" }
     - { state: "latest", name: "httpie" }
-    - { state: "latest", name: "hugo" }
     - { state: "latest", name: "jq" }
     - { state: "latest", name: "less" }
     - { state: "latest", name: "net-tools" }
@@ -42,6 +41,15 @@
     classic: "{{ item.classic | default('yes') }}"
   with_items:
     - { state: "present", name: "powershell" }
+
+# Use snap to get latest https://gohugo.io/getting-started/installing/#linux
+- name: snap install
+  snap:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    channel: "extended"
+  with_items:
+    - { state: "present", name: "hugo" }
 
 - name: apt install font
   apt:
