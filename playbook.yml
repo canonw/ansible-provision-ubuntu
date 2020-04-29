@@ -23,6 +23,7 @@
     # - { role: terminator, become: true }
 
     # # GUI
+    # - { role: multilingual, become: true }
     # - { role: desktop-app, become: true }
 
     # - { role: desktop-preferences, become: true }
